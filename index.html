@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAJAR's World – Portfolio Interactif</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="stars" id="stars"></div>
+
+  <div id="toast"></div>
+
+  <div class="hud" id="hud" style="display:none;">
+    <div class="hud-name">🎮 HAJAR's World</div>
+    <div id="hud-stars-display">⭐ 0 / 5 zones</div>
+  </div>
+
+  <!-- TITLE -->
+  <div class="screen active" id="screen-title">
+    <div class="game-logo">HAJAR's<br>WORLD</div>
+    <div class="subtitle">✨ A CREATIVE PORTFOLIO ADVENTURE ✨</div>
+    <div class="pixel-char">🎨</div>
+    <p>Explore 5 zones to discover Hajar's creative universe!</p>
+    <button class="start-btn" onclick="startGame()">▶ PRESS START</button>
+  </div>
+
+  <!-- MAP -->
+  <div class="screen" id="screen-map">
+    <div class="map-title">🗺️ Choose Your Zone!</div>
+    <p class="map-subtitle">Each zone hides secrets about Hajar — collect ⭐ stars to unlock them all!</p>
+    <div class="map-progress">
+      <div class="progress-bar-wrap"><div class="progress-bar" id="world-progress-bar" style="width:0%"></div></div>
+      <div id="world-progress-label">0 / 5 completed</div>
+    </div>
+    <div class="world-map">
+      <div class="zone z1" onclick="goLevel('about')"><div class="stars-badge" id="star-about"></div><span class="zone-icon">🧩</span><div class="zone-name" style="color:#ff6b6b">About Me</div><div class="zone-desc">Quiz Adventure</div></div>
+      <div class="zone z2" onclick="goLevel('gallery')"><div class="stars-badge" id="star-gallery"></div><span class="zone-icon">🖼️</span><div class="zone-name" style="color:#6bcb77">Gallery</div><div class="zone-desc">Memory Match</div></div>
+      <div class="zone z3" onclick="goLevel('music')"><div class="stars-badge" id="star-music"></div><span class="zone-icon">🎵</span><div class="zone-name" style="color:#4d96ff">Music</div><div class="zone-desc">Rhythm Battle</div></div>
+      <div class="zone z4" onclick="goLevel('skills')"><div class="stars-badge" id="star-skills"></div><span class="zone-icon">⚡</span><div class="zone-name" style="color:#ffd93d">Skills</div><div class="zone-desc">Whack-a-Mole</div></div>
+      <div class="zone z5" onclick="goLevel('contact')"><div class="stars-badge" id="star-contact"></div><span class="zone-icon">📬</span><div class="zone-name" style="color:#c77dff">Contact</div><div class="zone-desc">Boss Battle</div></div>
+      <div class="zone z6" onclick="checkZone6()" id="zone-inspiration" style="opacity:0.5;"><span class="zone-icon">💡</span><div class="zone-name" style="color:#ff9a3c">Inspiration</div><div class="zone-desc">Daily Tech Quote</div><div class="lock-badge" id="inspiration-lock">🔒</div></div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="screen" id="screen-about">
+    <button class="back-btn" onclick="goMap()">← Back to Map</button>
+    <div class="level-screen">
+      <div class="level-header"><span class="level-icon-big">🧩</span><div><div class="level-title" style="color:#ff6b6b">About Hajar</div><div class="level-subtitle">Answer correctly to earn a ⭐!</div></div></div>
+      <div class="quiz-progress" id="quiz-progress"></div>
+      <div class="quiz-question" id="quiz-q"></div>
+      <div class="quiz-options" id="quiz-opts"></div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="screen" id="screen-gallery">
+    <button class="back-btn" onclick="goMap()">← Back to Map</button>
+    <div class="level-screen">
+      <div class="level-header"><span class="level-icon-big">🖼️</span><div><div class="level-title" style="color:#6bcb77">Art Gallery</div><div class="level-subtitle">Match all pairs to win ⭐!</div></div></div>
+      <div class="memory-grid" id="mem-grid"></div>
+      <div class="mem-status">Moves: <span class="mem-moves" id="mem-moves">0</span> | Pairs: <span class="mem-moves" id="mem-pairs">0</span> / 8</div>
+      <button class="reset-btn" onclick="initMemory()">🔄 Reset</button>
+    </div>
+  </div>
+
+  <!-- MUSIC -->
+  <div class="screen" id="screen-music">
+    <button class="back-btn" onclick="goMap();stopRhythm()">← Back to Map</button>
+    <div class="level-screen">
+      <div class="level-header"><span class="level-icon-big">🎵</span><div><div class="level-title" style="color:#4d96ff">Music Zone</div><div class="level-subtitle">Hit 10 beats to earn ⭐!</div></div></div>
+      <div class="rhythm-area">
+        <div>Watch the highlighted color — tap it!</div>
+        <div class="beat-display">
+          <div class="beat-circle" style="color:#ff6b6b;border-color:#ff6b6b;" id="b0">🔴</div>
+          <div class="beat-circle" style="color:#ffd93d;border-color:#ffd93d;" id="b1">🟡</div>
+          <div class="beat-circle" style="color:#6bcb77;border-color:#6bcb77;" id="b2">🟢</div>
+          <div class="beat-circle" style="color:#4d96ff;border-color:#4d96ff;" id="b3">🔵</div>
+        </div>
+        <div class="combo-display" id="combo-display"></div>
+        <div class="rhythm-btns">
+          <button class="r-btn rb1" onclick="hitBeat(0)">🔴</button>
+          <button class="r-btn rb2" onclick="hitBeat(1)">🟡</button>
+          <button class="r-btn rb3" onclick="hitBeat(2)">🟢</button>
+          <button class="r-btn rb4" onclick="hitBeat(3)">🔵</button>
+        </div>
+        <div class="rhythm-score">
+          <div><div class="score-num" id="r-score">0</div><div class="score-label">Hits</div></div>
+          <div><div class="score-num miss-num" id="r-miss">0</div><div class="score-label">Misses</div></div>
+        </div>
+        <button class="start-btn small-btn" onclick="startRhythm()" id="rhythm-start-btn">▶ Start!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="screen" id="screen-skills">
+    <button class="back-btn" onclick="goMap();stopMole()">← Back to Map</button>
+    <div class="level-screen">
+      <div class="level-header"><span class="level-icon-big">⚡</span><div><div class="level-title" style="color:#ffd93d">Skills Zone</div><div class="level-subtitle">Whack 15 skills to earn ⭐!</div></div></div>
+      <div class="mole-grid" id="mole-grid"></div>
+      <div class="mole-stats">
+        <div class="mole-stat"><div class="mole-stat-val" id="mole-score">0</div><div class="mole-stat-label">Score</div></div>
+        <div class="mole-stat"><div class="mole-stat-val" id="mole-time">30</div><div class="mole-stat-label">Time</div></div>
+      </div>
+      <div class="mole-timer-bar"><div class="mole-timer-fill" id="mole-timer-fill" style="width:100%"></div></div>
+      <div><button class="start-btn small-btn" onclick="startMole()" id="mole-start-btn">▶ Start!</button></div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="screen" id="screen-contact">
+    <button class="back-btn" onclick="goMap()">← Back to Map</button>
+    <div class="level-screen">
+      <div class="level-header"><span class="level-icon-big">📬</span><div><div class="level-title" style="color:#c77dff">Contact Boss</div><div class="level-subtitle">Defeat the boss to unlock Hajar's contacts!</div></div></div>
+      <div class="boss-area">
+        <div class="boss-hp"><div>Boss HP</div><div class="hp-bar"><div class="hp-fill" id="boss-hp-fill" style="width:100%"></div></div><div id="boss-hp-txt">100 / 100</div></div>
+        <span class="boss-sprite" id="boss-sprite">👾</span>
+        <div>Choose your attack spell!</div>
+        <div class="spell-btns">
+          <button class="spell-btn sp1" onclick="attack(25,'🔥 Fire Spell! -25 HP')">🔥 Fire Spell</button>
+          <button class="spell-btn sp2" onclick="attack(20,'💧 Water Spell! -20 HP')">💧 Water Spell</button>
+          <button class="spell-btn sp3" onclick="attack(35,'⚡ Thunder! -35 HP')">⚡ Thunder</button>
+          <button class="spell-btn sp4" onclick="attack(15,'🌟 Star Burst! -15 HP')">🌟 Star Burst</button>
+        </div>
+        <div class="battle-log" id="battle-log"></div>
+        <!-- Formulaire de contact, caché jusqu'à ce que le boss soit vaincu -->
+        <div class="contact-form" id="contact-form-wrap">
+          <h3>📬 Send a message to Hajar</h3>
+          <input type="text" id="form-name" placeholder="Your name" required>
+          <input type="email" id="form-email" placeholder="Your email" required>
+          <textarea id="form-message" rows="3" placeholder="Your message..." required></textarea>
+          <button onclick="sendMessage()">💌 Send Message</button>
+          <div class="loading-spinner" id="form-loader">⏳ Sending...</div>
+          <div id="form-feedback"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSPIRATION -->
+  <div class="screen" id="screen-inspiration">
+    <button class="back-btn" onclick="goMap()">← Back to Map</button>
+    <div class="level-screen">
+      <div class="level-header"><span class="level-icon-big">💡</span><div><div class="level-title" style="color:#ff9a3c">Daily Inspiration</div><div class="level-subtitle">A random quote to inspire you!</div></div></div>
+      <div class="inspiration-content">
+        <div id="quote-container">
+          <div id="quote-text"></div>
+          <div id="quote-author"></div>
+        </div>
+        <div class="loading-spinner" id="quote-loader">⏳ Loading inspiration...</div>
+        <div id="quote-error"></div>
+        <button class="start-btn small-btn" onclick="fetchQuote()">🔄 Get another quote</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- WIN -->
+  <div class="screen" id="screen-win">
+    <div class="win-content">
+      <div class="win-title">YOU WIN! 🎉</div>
+      <div class="final-stars">⭐⭐⭐⭐⭐</div>
+      <div class="win-msg">You've explored all of Hajar's creative world!<br>Let's connect!</div>
+      <div class="contact-links">
+        <button class="clink cl1" onclick="openLink('mailto:hajar@email.com')">📧 Email Hajar</button>
+        <button class="clink cl2" onclick="openLink('https://instagram.com')">📸 Instagram</button>
+        <button class="clink cl3" onclick="openLink('https://linkedin.com')">💼 LinkedIn</button>
+      </div>
+      <button class="start-btn" onclick="goMap()">🗺️ Play Again</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
