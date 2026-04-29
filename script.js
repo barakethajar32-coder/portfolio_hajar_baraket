@@ -1,6 +1,4 @@
-// =============================================
 // ÉTOILES DE FOND
-// =============================================
 const sc = document.getElementById('stars');
 for (let i = 0; i < 80; i++) {
   const s = document.createElement('div');
@@ -10,15 +8,11 @@ for (let i = 0; i < 80; i++) {
   sc.appendChild(s);
 }
 
-// =============================================
 // ÉTAT GLOBAL
-// =============================================
 const completed = {};
 let totalCompleted = 0;
 
-// =============================================
 // NAVIGATION
-// =============================================
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + id).classList.add('active');
@@ -72,9 +66,7 @@ function updateHUD() {
   document.getElementById('hud-stars-display').textContent = `⭐ ${totalCompleted} / 5 zones`;
 }
 
-// =============================================
 // CONFETTI & TOAST
-// =============================================
 function completeZone(zone) {
   if (!completed[zone]) {
     completed[zone] = true;
@@ -106,9 +98,7 @@ function showToast(msg) {
   }, 2500);
 }
 
-// =============================================
 // QUIZ
-// =============================================
 const quizData = [
   { q: "What is Hajar's main creative passion?", opts: ["Cooking","Art & Music","Sports","Coding only"], ans: 1 },
   { q: "Which vibe best describes Hajar's style?", opts: ["Dark & gloomy","Boring & plain","Colorful & playful 🌈","Super serious"], ans: 2 },
@@ -150,9 +140,7 @@ function answerQ(i) {
   }, 1200);
 }
 
-// =============================================
 // MEMORY
-// =============================================
 const memEmojis = ['🎨','🎵','📸','🦋','✨','🎭','🖌️','🎶'];
 let memFlipped = [], memMatched = 0, memMoves = 0, memLock = false, memCards = [];
 
@@ -197,9 +185,7 @@ function flipCard(i) {
   }
 }
 
-// =============================================
 // RHYTHM
-// =============================================
 let rhythmInterval = null, rhythmActive = -1, rhythmScore = 0, rhythmMiss = 0, rhythmRunning = false;
 
 function resetRhythm() {
@@ -262,9 +248,7 @@ function stopRhythm() {
   rhythmRunning = false;
 }
 
-// =============================================
 // WHACK-A-MOLE
-// =============================================
 const skills = ['🎨','🖌️','🎵','📸','✨','🦋','🎭','🎶','💫','🌟'];
 let moleInterval = null, moleTimer = null, moleScoreVal = 0, moleTimeLeft = 30, moleRunning = false, moleActive = [];
 
@@ -355,9 +339,7 @@ function stopMole() {
   moleActive.forEach(h => hideMole(h));
 }
 
-// =============================================
 // BOSS FIGHT
-// =============================================
 let bossHP = 100;
 
 function initBoss() {
@@ -390,9 +372,7 @@ function attack(dmg, msg) {
   }
 }
 
-// =============================================
 // FORMULAIRE DE CONTACT ASYNCHRONE
-// =============================================
 async function sendMessage() {
   const name = document.getElementById('form-name').value.trim();
   const email = document.getElementById('form-email').value.trim();
@@ -429,9 +409,7 @@ async function sendMessage() {
   }
 }
 
-// =============================================
 // API INSPIRATION (robuste avec fallback)
-// =============================================
 async function fetchQuote() {
   const quoteText = document.getElementById('quote-text');
   const quoteAuthor = document.getElementById('quote-author');
@@ -493,14 +471,10 @@ async function fetchQuote() {
   loader.style.display = 'none';
 }
 
-// =============================================
 // OUVERTURE DE LIENS
-// =============================================
 function openLink(url) {
   window.open(url, '_blank');
 }
 
-// =============================================
 // INITIALISATION AU CHARGEMENT
-// =============================================
 buildMoleGrid();
